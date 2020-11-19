@@ -4,9 +4,9 @@
  */
 package site.likailee.spring.factory;
 
-import site.likailee.spring.BeanDefinition;
-import site.likailee.spring.PropertyValue;
-import site.likailee.spring.PropertyValues;
+import site.likailee.spring.bean.BeanDefinition;
+import site.likailee.spring.bean.PropertyValue;
+import site.likailee.spring.bean.PropertyValues;
 
 import java.lang.reflect.Field;
 

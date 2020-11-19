@@ -2,7 +2,7 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.spring;
+package site.likailee.spring.bean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,4 +33,5 @@ public class PropertyValues {
     public List<PropertyValue> getPropertyValues() {
         return this.propertyValues;
     }
+
 }

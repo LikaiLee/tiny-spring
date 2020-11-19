@@ -4,7 +4,7 @@
  */
 package site.likailee.spring.factory;
 
-import site.likailee.spring.BeanDefinition;
+import site.likailee.spring.bean.BeanDefinition;
 
 /**
  * @author likailee.llk

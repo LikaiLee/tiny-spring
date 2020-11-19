@@ -2,7 +2,7 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.spring;
+package site.likailee.spring.bean;
 
 /**
  * 用于 Bean 属性注入的 Key-Value 对

@@ -2,11 +2,11 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.spring;
+package site.likailee.spring.bean;
 
 /**
  * @author likailee.llk
- * @version site.likailee.spring.BeanDefinition.java 2020/11/18 Wed 4:29 PM likai
+ * @version site.likailee.spring.bean.BeanDefinition.java 2020/11/18 Wed 4:29 PM likai
  */
 public class BeanDefinition {
     /**
@@ -60,10 +60,23 @@ public class BeanDefinition {
     }
 
     public PropertyValues getPropertyValues() {
+        if (propertyValues == null) {
+            propertyValues = new PropertyValues();
+        }
         return propertyValues;
     }
 
     public void setPropertyValues(PropertyValues propertyValues) {
         this.propertyValues = propertyValues;
+    }
+
+    @Override
+    public String toString() {
+        return "BeanDefinition{" +
+                "bean=" + bean +
+                ", beanClass=" + beanClass +
+                ", beanClassName='" + beanClassName + '\'' +
+                ", propertyValues=" + propertyValues +
+                '}';
     }
 }
