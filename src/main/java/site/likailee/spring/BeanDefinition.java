@@ -21,6 +21,10 @@ public class BeanDefinition {
      * Bean 类名
      */
     private String beanClassName;
+    /**
+     * Bean 属性列表
+     */
+    private PropertyValues propertyValues;
 
     public BeanDefinition() {
     }
@@ -53,5 +57,13 @@ public class BeanDefinition {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public PropertyValues getPropertyValues() {
+        return propertyValues;
+    }
+
+    public void setPropertyValues(PropertyValues propertyValues) {
+        this.propertyValues = propertyValues;
     }
 }

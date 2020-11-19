@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public abstract class AbstractBeanFactory implements BeanFactory {
 
-    private Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<String, BeanDefinition>();
+    private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>();
 
     @Override
     public Object getBean(String name) {
@@ -34,8 +34,8 @@ public abstract class AbstractBeanFactory implements BeanFactory {
     /**
      * 创建 Bean 实例，由具体的 BeanFactory 实现
      *
-     * @param beanDefinition
-     * @return
+     * @param beanDefinition Bean 元数据
+     * @return Bean 实例
      */
     protected abstract Object doCreateBean(BeanDefinition beanDefinition);
 }

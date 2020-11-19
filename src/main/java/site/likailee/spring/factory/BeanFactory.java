@@ -12,18 +12,18 @@ import site.likailee.spring.BeanDefinition;
  */
 public interface BeanFactory {
     /**
-     * 根据类名获取具体的类
+     * 根据类的标识符获取具体的类
      *
-     * @param name
-     * @return
+     * @param name 在 Map 中标识类的 Key
+     * @return Bean
      */
     Object getBean(String name);
 
     /**
      * 将 BeanDefinition 注册到 BeanFactory 中
      *
-     * @param name
-     * @param beanDefinition
+     * @param name           在 Map 中标识类的 Key
+     * @param beanDefinition Bean 元数据
      */
     void registerBeanDefinition(String name, BeanDefinition beanDefinition);
 }
