@@ -2,5 +2,10 @@
 <beans>
     <bean name="helloWorldService" class="HelloWorldService">
         <property name="text" value="hello world!"/>
+        <property name="outputService" ref="outputService"/>
+    </bean>
+
+    <bean name="outputService" class="OutputService">
+        <property name="helloWorldService" ref="helloWorldService"/>
     </bean>
 </beans>

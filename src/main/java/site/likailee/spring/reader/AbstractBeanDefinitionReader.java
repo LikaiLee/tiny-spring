@@ -17,6 +17,7 @@ import java.util.Map;
 public abstract class AbstractBeanDefinitionReader implements BeanDefinitionReader {
     /**
      * 保存读取到的 Bean，用于注入 BeanFactory
+     * 此时的 Bean 还未进行实例化，由 BeanFactory 实例化
      */
     private final Map<String, BeanDefinition> registry;
     /**

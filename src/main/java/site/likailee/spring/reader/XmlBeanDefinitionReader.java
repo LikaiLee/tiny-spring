@@ -10,6 +10,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import site.likailee.spring.bean.BeanDefinition;
+import site.likailee.spring.bean.BeanReference;
 import site.likailee.spring.bean.PropertyValue;
 import site.likailee.spring.io.ResourceLoader;
 
@@ -98,7 +99,21 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
                 Element property = (Element) node;
                 String name = property.getAttribute("name");
                 String value = property.getAttribute("value");
-                beanDefinition.getPropertyValues().addPropertyValue(new PropertyValue(name, value));
+                // property 为属性
+                if (value != null && value.length() > 0) {
+                    beanDefinition.getPropertyValues().addPropertyValue(new PropertyValue(name, value));
+                }
+                // property 为 bean
+                else {
+                    String ref = property.getAttribute("ref");
+                    if (ref == null || ref.length() == 0) {
+                        throw new IllegalArgumentException("Configuration problem: <property> element for property '"
+                                + name + "' must specify a ref or value");
+                    }
+                    // 先不实例化依赖的 bean
+                    BeanReference beanReference = new BeanReference(ref);
+                    beanDefinition.getPropertyValues().addPropertyValue(new PropertyValue(name, beanReference));
+                }
             }
         }
     }

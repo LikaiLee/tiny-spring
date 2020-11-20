@@ -18,24 +18,54 @@ public abstract class AbstractBeanFactory implements BeanFactory {
     private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>();
 
     @Override
-    public Object getBean(String name) {
-        return beanDefinitionMap.get(name).getBean();
+    public Object getBean(String name) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
+        BeanDefinition beanDefinition = beanDefinitionMap.get(name);
+        if (beanDefinition == null) {
+            throw new IllegalArgumentException("No bean named " + name + " is defined");
+        }
+        Object bean = beanDefinition.getBean();
+        // bean 未实例化，进行实例化
+        if (bean == null) {
+            bean = doCreateBean(beanDefinition);
+        }
+        return bean;
     }
 
     @Override
-    public void registerBeanDefinition(String name, BeanDefinition beanDefinition) {
-        // 模板方法，由子类构建 Bean
-        Object bean = doCreateBean(beanDefinition);
-        beanDefinition.setBean(bean);
-        // name 实际就是配置里的 id 或 name
+    public void registerBeanDefinition(String name, BeanDefinition beanDefinition) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
+        // 不进行 Bean 的实例化，否则可能导致循环依赖
+        // name 实际就是配置里 bean 的 name
         beanDefinitionMap.put(name, beanDefinition);
     }
+
+    /**
+     * 手动实例化所有的 Bean
+     *
+     * @throws IllegalAccessException
+     * @throws NoSuchFieldException
+     * @throws InstantiationException
+     */
+    public void preInstantiateSingletons() throws IllegalAccessException, NoSuchFieldException, InstantiationException {
+        for (BeanDefinition beanDefinition : beanDefinitionMap.values()) {
+            if (beanDefinition.getBean() == null) {
+                synchronized (this) {
+                    if (beanDefinition.getBean() == null) {
+                        doCreateBean(beanDefinition);
+                    }
+                }
+            }
+        }
+    }
+
 
     /**
      * 创建 Bean 实例，由具体的 BeanFactory 实现
      *
      * @param beanDefinition Bean 元数据
      * @return Bean 实例
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws NoSuchFieldException
      */
-    protected abstract Object doCreateBean(BeanDefinition beanDefinition);
+    protected abstract Object doCreateBean(BeanDefinition beanDefinition) throws InstantiationException, IllegalAccessException, NoSuchFieldException;
 }

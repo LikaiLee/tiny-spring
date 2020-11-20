@@ -5,6 +5,7 @@
 package site.likailee.spring.factory;
 
 import site.likailee.spring.bean.BeanDefinition;
+import site.likailee.spring.bean.BeanReference;
 import site.likailee.spring.bean.PropertyValue;
 import site.likailee.spring.bean.PropertyValues;
 
@@ -17,17 +18,14 @@ import java.lang.reflect.Field;
 public class AutowireCapableBeanFactory extends AbstractBeanFactory {
 
     @Override
-    protected Object doCreateBean(BeanDefinition beanDefinition) {
-        try {
-            // 生成 bean 实例
-            Object bean = createBeanInstance(beanDefinition);
-            // 设置 bean 属性
-            applyPropertyValues(bean, beanDefinition);
-            return bean;
-        } catch (InstantiationException | IllegalAccessException | NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-        return null;
+    protected Object doCreateBean(BeanDefinition beanDefinition) throws InstantiationException, IllegalAccessException, NoSuchFieldException {
+        // 生成 bean 实例
+        Object bean = createBeanInstance(beanDefinition);
+        // 先创建后注入，所以不会存在两个循环依赖的 bean 创建死锁的问题
+        beanDefinition.setBean(bean);
+        // 设置 bean 属性
+        applyPropertyValues(bean, beanDefinition);
+        return bean;
     }
 
     /**
@@ -36,12 +34,20 @@ public class AutowireCapableBeanFactory extends AbstractBeanFactory {
      * @param bean
      * @param beanDefinition
      */
-    private void applyPropertyValues(Object bean, BeanDefinition beanDefinition) throws NoSuchFieldException, IllegalAccessException {
+    private void applyPropertyValues(Object bean, BeanDefinition beanDefinition) throws NoSuchFieldException, IllegalAccessException, InstantiationException {
         PropertyValues propertyValues = beanDefinition.getPropertyValues();
         for (PropertyValue pv : propertyValues.getPropertyValues()) {
             Field field = bean.getClass().getDeclaredField(pv.getName());
             field.setAccessible(true);
-            field.set(bean, pv.getValue());
+            Object value = pv.getValue();
+            // 注入依赖的 bean
+            if (value instanceof BeanReference) {
+                BeanReference beanReference = (BeanReference) value;
+                // 从 factory 中取出依赖的 bean
+                // 若 依赖的 bean 未实例化，则进行实例化
+                value = getBean(beanReference.getName());
+            }
+            field.set(bean, value);
         }
     }
 

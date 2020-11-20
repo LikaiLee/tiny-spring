@@ -5,6 +5,8 @@
 package site.likailee.spring.bean;
 
 /**
+ * Bean 元数据
+ *
  * @author likailee.llk
  * @version site.likailee.spring.bean.BeanDefinition.java 2020/11/18 Wed 4:29 PM likai
  */
@@ -24,7 +26,7 @@ public class BeanDefinition {
     /**
      * Bean 属性列表
      */
-    private PropertyValues propertyValues;
+    private PropertyValues propertyValues = new PropertyValues();
 
     public BeanDefinition() {
     }
@@ -60,9 +62,6 @@ public class BeanDefinition {
     }
 
     public PropertyValues getPropertyValues() {
-        if (propertyValues == null) {
-            propertyValues = new PropertyValues();
-        }
         return propertyValues;
     }
 
