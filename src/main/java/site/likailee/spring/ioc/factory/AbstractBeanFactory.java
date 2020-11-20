@@ -2,9 +2,9 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.spring.factory;
+package site.likailee.spring.ioc.factory;
 
-import site.likailee.spring.bean.BeanDefinition;
+import site.likailee.spring.ioc.bean.BeanDefinition;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -31,7 +31,16 @@ public abstract class AbstractBeanFactory implements BeanFactory {
         return bean;
     }
 
-    @Override
+    /**
+     * 将 BeanDefinition 注册到 BeanFactory 中
+     * 仅建立映射关系，不实例化 Bean
+     *
+     * @param name           在 Map 中标识类的 Key
+     * @param beanDefinition Bean 元数据
+     * @throws IllegalAccessException
+     * @throws NoSuchFieldException
+     * @throws InstantiationException
+     */
     public void registerBeanDefinition(String name, BeanDefinition beanDefinition) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
         // 不进行 Bean 的实例化，否则可能导致循环依赖
         // name 实际就是配置里 bean 的 name

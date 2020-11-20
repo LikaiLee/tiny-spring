@@ -2,13 +2,13 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.spring.bean;
+package site.likailee.spring.ioc.bean;
 
 /**
  * Bean 元数据
  *
  * @author likailee.llk
- * @version site.likailee.spring.bean.BeanDefinition.java 2020/11/18 Wed 4:29 PM likai
+ * @version site.likailee.spring.ioc.bean.BeanDefinition.java 2020/11/18 Wed 4:29 PM likai
  */
 public class BeanDefinition {
     /**

@@ -2,7 +2,7 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.spring.bean;
+package site.likailee.spring.ioc.bean;
 
 import java.util.ArrayList;
 import java.util.List;

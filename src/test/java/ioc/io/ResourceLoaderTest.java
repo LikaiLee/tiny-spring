@@ -2,11 +2,11 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package io;
+package ioc.io;
 
 import org.junit.Assert;
 import org.junit.Test;
-import site.likailee.spring.io.ResourceLoader;
+import site.likailee.spring.ioc.io.ResourceLoader;
 
 import java.io.IOException;
 import java.io.InputStream;

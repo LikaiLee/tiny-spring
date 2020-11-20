@@ -2,12 +2,12 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.spring.factory;
+package site.likailee.spring.ioc.factory;
 
-import site.likailee.spring.bean.BeanDefinition;
-import site.likailee.spring.bean.BeanReference;
-import site.likailee.spring.bean.PropertyValue;
-import site.likailee.spring.bean.PropertyValues;
+import site.likailee.spring.ioc.bean.BeanDefinition;
+import site.likailee.spring.ioc.bean.BeanReference;
+import site.likailee.spring.ioc.bean.PropertyValue;
+import site.likailee.spring.ioc.bean.PropertyValues;
 
 import java.lang.reflect.Field;
 

@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?ioc.xml version="1.0" encoding="utf-8" ?>
 <beans>
-    <bean name="helloWorldService" class="HelloWorldService">
+    <bean name="helloWorldService" class="service.HelloWorldService">
         <property name="text" value="hello world!"/>
         <property name="outputService" ref="outputService"/>
     </bean>
 
-    <bean name="outputService" class="OutputService">
+    <bean name="outputService" class="service.OutputService">
         <property name="helloWorldService" ref="helloWorldService"/>
     </bean>
 </beans>

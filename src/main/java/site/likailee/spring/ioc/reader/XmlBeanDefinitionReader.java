@@ -2,17 +2,17 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.spring.reader;
+package site.likailee.spring.ioc.reader;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import site.likailee.spring.bean.BeanDefinition;
-import site.likailee.spring.bean.BeanReference;
-import site.likailee.spring.bean.PropertyValue;
-import site.likailee.spring.io.ResourceLoader;
+import site.likailee.spring.ioc.bean.BeanDefinition;
+import site.likailee.spring.ioc.bean.BeanReference;
+import site.likailee.spring.ioc.bean.PropertyValue;
+import site.likailee.spring.ioc.io.ResourceLoader;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

@@ -4,11 +4,11 @@
  */
 
 import org.junit.Test;
-import site.likailee.spring.bean.BeanDefinition;
-import site.likailee.spring.factory.AutowireCapableBeanFactory;
-import site.likailee.spring.factory.BeanFactory;
-import site.likailee.spring.io.ResourceLoader;
-import site.likailee.spring.reader.XmlBeanDefinitionReader;
+import service.HelloWorldService;
+import site.likailee.spring.ioc.bean.BeanDefinition;
+import site.likailee.spring.ioc.factory.AutowireCapableBeanFactory;
+import site.likailee.spring.ioc.io.ResourceLoader;
+import site.likailee.spring.ioc.reader.XmlBeanDefinitionReader;
 
 import java.util.Map;
 
@@ -25,7 +25,7 @@ public class BeanFactoryTest {
         xmlReader.loadBeanDefinitions("beans.xml");
         Map<String, BeanDefinition> registry = xmlReader.getRegistry();
 
-        BeanFactory beanFactory = new AutowireCapableBeanFactory();
+        AutowireCapableBeanFactory beanFactory = new AutowireCapableBeanFactory();
         // 在 BeanFactory 注册 BeanDefinition
         for (Map.Entry<String, BeanDefinition> entry : registry.entrySet()) {
             beanFactory.registerBeanDefinition(entry.getKey(), entry.getValue());

@@ -2,14 +2,13 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package xml;
+package ioc.xml;
 
 import org.junit.Assert;
 import org.junit.Test;
-import site.likailee.spring.bean.BeanDefinition;
-import site.likailee.spring.io.ResourceLoader;
-import site.likailee.spring.reader.BeanDefinitionReader;
-import site.likailee.spring.reader.XmlBeanDefinitionReader;
+import site.likailee.spring.ioc.bean.BeanDefinition;
+import site.likailee.spring.ioc.io.ResourceLoader;
+import site.likailee.spring.ioc.reader.XmlBeanDefinitionReader;
 
 import java.util.Map;
 

@@ -2,9 +2,9 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.spring.factory;
+package site.likailee.spring.ioc.factory;
 
-import site.likailee.spring.bean.BeanDefinition;
+import site.likailee.spring.ioc.bean.BeanDefinition;
 
 /**
  * @author likailee.llk
@@ -22,16 +22,4 @@ public interface BeanFactory {
      * @throws InstantiationException
      */
     Object getBean(String name) throws IllegalAccessException, NoSuchFieldException, InstantiationException;
-
-    /**
-     * 将 BeanDefinition 注册到 BeanFactory 中
-     * 仅建立映射关系，不实例化 Bean
-     *
-     * @param name           在 Map 中标识类的 Key
-     * @param beanDefinition Bean 元数据
-     * @throws IllegalAccessException
-     * @throws NoSuchFieldException
-     * @throws InstantiationException
-     */
-    void registerBeanDefinition(String name, BeanDefinition beanDefinition) throws IllegalAccessException, NoSuchFieldException, InstantiationException;
 }

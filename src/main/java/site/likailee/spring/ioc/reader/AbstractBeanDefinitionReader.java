@@ -2,10 +2,10 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.spring.reader;
+package site.likailee.spring.ioc.reader;
 
-import site.likailee.spring.bean.BeanDefinition;
-import site.likailee.spring.io.ResourceLoader;
+import site.likailee.spring.ioc.bean.BeanDefinition;
+import site.likailee.spring.ioc.io.ResourceLoader;
 
 import java.util.HashMap;
 import java.util.Map;

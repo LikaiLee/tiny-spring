@@ -2,7 +2,7 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.spring.io;
+package site.likailee.spring.ioc.io;
 
 import java.net.URL;
 

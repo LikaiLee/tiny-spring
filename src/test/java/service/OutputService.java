@@ -1,4 +1,4 @@
-/**
+package service; /**
  * https://likailee.site
  * CopyRight (c) 2020
  */
@@ -7,7 +7,7 @@ import org.junit.Assert;
 
 /**
  * @author likailee.llk
- * @version OutputService.java 2020/11/20 Fri 9:54 AM likai
+ * @version service.OutputService.java 2020/11/20 Fri 9:54 AM likai
  */
 public class OutputService {
     private HelloWorldService helloWorldService;
