@@ -1,4 +1,4 @@
-/**
+package ioc.factory; /**
  * https://likailee.site
  * CopyRight (c) 2020
  */
@@ -14,7 +14,7 @@ import java.util.Map;
 
 /**
  * @author likailee.llk
- * @version BeanFactoryTest.java 2020/11/19 Thu 10:29 AM likai
+ * @version ioc.factory.BeanFactoryTest.java 2020/11/19 Thu 10:29 AM likai
  */
 public class BeanFactoryTest {
 

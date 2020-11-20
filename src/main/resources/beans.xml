@@ -1,6 +1,6 @@
 <?ioc.xml version="1.0" encoding="utf-8" ?>
 <beans>
-    <bean name="helloWorldService" class="service.HelloWorldService">
+    <bean name="helloWorldService" class="service.impl.HelloWorldServiceImpl">
         <property name="text" value="hello world!"/>
         <property name="outputService" ref="outputService"/>
     </bean>
