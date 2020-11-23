@@ -5,7 +5,10 @@
 package site.likailee.spring.ioc.factory;
 
 import site.likailee.spring.ioc.bean.BeanDefinition;
+import site.likailee.spring.ioc.bean.BeanPostProcessor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -17,6 +20,8 @@ public abstract class AbstractBeanFactory implements BeanFactory {
 
     private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>();
 
+    private List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
+
     @Override
     public Object getBean(String name) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
         BeanDefinition beanDefinition = beanDefinitionMap.get(name);
@@ -27,8 +32,67 @@ public abstract class AbstractBeanFactory implements BeanFactory {
         // bean 未实例化，进行实例化
         if (bean == null) {
             bean = doCreateBean(beanDefinition);
+            initializeBean(bean, name);
         }
         return bean;
+    }
+
+    /**
+     * 每个 bean 初始化时都会通过每个 BeanPostProcessor
+     *
+     * @param bean
+     * @param name
+     */
+    protected void initializeBean(Object bean, String name) {
+        for (BeanPostProcessor processor : beanPostProcessors) {
+            bean = processor.postProcessBeforeInitialization(bean, name);
+        }
+        // call initialize method
+        for (BeanPostProcessor processor : beanPostProcessors) {
+            bean = processor.postProcessAfterInitialization(bean, name);
+        }
+    }
+
+    /**
+     * 创建 Bean 实例并设置属性
+     *
+     * @param beanDefinition Bean 元数据
+     * @return Bean 实例
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws NoSuchFieldException
+     */
+    protected Object doCreateBean(BeanDefinition beanDefinition) throws InstantiationException, IllegalAccessException, NoSuchFieldException {
+        // 生成 bean 实例
+        Object bean = createBeanInstance(beanDefinition);
+        // 先创建后注入，所以不会存在两个循环依赖的 bean 创建死锁的问题
+        beanDefinition.setBean(bean);
+        // 设置 bean 属性
+        applyPropertyValues(bean, beanDefinition);
+        return bean;
+    }
+
+    /**
+     * 为 bean 注入属性，由具体的 BeanFactory 子类实现
+     *
+     * @param bean
+     * @param beanDefinition
+     * @throws NoSuchFieldException
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     */
+    protected abstract void applyPropertyValues(Object bean, BeanDefinition beanDefinition) throws NoSuchFieldException, IllegalAccessException, InstantiationException;
+
+    /**
+     * 创建 Bean 实例
+     *
+     * @param beanDefinition
+     * @return
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     */
+    private Object createBeanInstance(BeanDefinition beanDefinition) throws IllegalAccessException, InstantiationException {
+        return beanDefinition.getBeanClass().newInstance();
     }
 
     /**
@@ -55,26 +119,47 @@ public abstract class AbstractBeanFactory implements BeanFactory {
      * @throws InstantiationException
      */
     public void preInstantiateSingletons() throws IllegalAccessException, NoSuchFieldException, InstantiationException {
-        for (BeanDefinition beanDefinition : beanDefinitionMap.values()) {
+        for (Map.Entry<String, BeanDefinition> entry : beanDefinitionMap.entrySet()) {
+            BeanDefinition beanDefinition = entry.getValue();
             if (beanDefinition.getBean() == null) {
                 synchronized (this) {
                     if (beanDefinition.getBean() == null) {
-                        doCreateBean(beanDefinition);
+                        // doCreateBean(beanDefinition);
+                        getBean(entry.getKey());
                     }
                 }
             }
         }
+
     }
 
-
     /**
-     * 创建 Bean 实例，由具体的 BeanFactory 实现
+     * 获取 BeanPostProcessor 的子类或同类
      *
-     * @param beanDefinition Bean 元数据
-     * @return Bean 实例
-     * @throws InstantiationException
+     * @param beanPostProcessorClass
+     * @return
      * @throws IllegalAccessException
      * @throws NoSuchFieldException
+     * @throws InstantiationException
      */
-    protected abstract Object doCreateBean(BeanDefinition beanDefinition) throws InstantiationException, IllegalAccessException, NoSuchFieldException;
+    public List<Object> getBeansForType(Class<BeanPostProcessor> beanPostProcessorClass) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
+        List<Object> beans = new ArrayList<>();
+        for (Map.Entry<String, BeanDefinition> entry : beanDefinitionMap.entrySet()) {
+            Class clazz = entry.getValue().getBeanClass();
+            // 获取 beanDefinitionMap 中的 BeanPostProcessor
+            if (beanPostProcessorClass.isAssignableFrom(clazz)) {
+                beans.add(getBean(entry.getKey()));
+            }
+        }
+        return beans;
+    }
+
+    /**
+     * 新增 BeanPostProcessor
+     *
+     * @param beanPostProcessor
+     */
+    public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
+        this.beanPostProcessors.add(beanPostProcessor);
+    }
 }

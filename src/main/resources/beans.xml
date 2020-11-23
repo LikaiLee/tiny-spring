@@ -8,4 +8,7 @@
     <bean name="outputService" class="service.OutputService">
         <property name="helloWorldService" ref="helloWorldService"/>
     </bean>
+
+<!--    <bean name="customProcessor" class="context.CustomBeanPostProcessor"/>-->
+    <bean name="beanInitializeLogger" class="context.BeanInitializeLogger"/>
 </beans>

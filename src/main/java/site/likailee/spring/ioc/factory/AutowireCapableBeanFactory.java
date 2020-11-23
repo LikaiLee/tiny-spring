@@ -17,24 +17,14 @@ import java.lang.reflect.Field;
  */
 public class AutowireCapableBeanFactory extends AbstractBeanFactory {
 
-    @Override
-    protected Object doCreateBean(BeanDefinition beanDefinition) throws InstantiationException, IllegalAccessException, NoSuchFieldException {
-        // 生成 bean 实例
-        Object bean = createBeanInstance(beanDefinition);
-        // 先创建后注入，所以不会存在两个循环依赖的 bean 创建死锁的问题
-        beanDefinition.setBean(bean);
-        // 设置 bean 属性
-        applyPropertyValues(bean, beanDefinition);
-        return bean;
-    }
-
     /**
      * 为 Bean 注入属性
      *
      * @param bean
      * @param beanDefinition
      */
-    private void applyPropertyValues(Object bean, BeanDefinition beanDefinition) throws NoSuchFieldException, IllegalAccessException, InstantiationException {
+    @Override
+    protected void applyPropertyValues(Object bean, BeanDefinition beanDefinition) throws NoSuchFieldException, IllegalAccessException, InstantiationException {
         PropertyValues propertyValues = beanDefinition.getPropertyValues();
         for (PropertyValue pv : propertyValues.getPropertyValues()) {
             Field field = bean.getClass().getDeclaredField(pv.getName());
@@ -51,15 +41,5 @@ public class AutowireCapableBeanFactory extends AbstractBeanFactory {
         }
     }
 
-    /**
-     * 创建 Bean 实例
-     *
-     * @param beanDefinition
-     * @return
-     * @throws IllegalAccessException
-     * @throws InstantiationException
-     */
-    private Object createBeanInstance(BeanDefinition beanDefinition) throws IllegalAccessException, InstantiationException {
-        return beanDefinition.getBeanClass().newInstance();
-    }
+
 }
