@@ -18,18 +18,18 @@ public class TargetSource {
     /**
      * 对象所在的类
      */
-    private Class targetClass;
+    private Class<?>[] targetClass;
 
-    public TargetSource(Object target, Class targetClass) {
+    public TargetSource(Object target, Class<?>... targetClass) {
         this.target = target;
         this.targetClass = targetClass;
     }
 
-    public Class getTargetClass() {
+    public Class<?>[] getTargetClass() {
         return targetClass;
     }
 
-    public void setTargetClass(Class targetClass) {
+    public void setTargetClass(Class<?>[] targetClass) {
         this.targetClass = targetClass;
     }
 

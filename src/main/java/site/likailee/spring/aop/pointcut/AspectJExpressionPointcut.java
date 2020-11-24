@@ -2,7 +2,7 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.spring.aop.aspect;
+package site.likailee.spring.aop.pointcut;
 
 import org.aspectj.weaver.tools.PointcutExpression;
 import org.aspectj.weaver.tools.PointcutParser;
@@ -14,6 +14,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * AspectJ 切点
+ *
  * @author likailee.llk
  * @version AspectJExpressionPointcut.java 2020/11/24 Tue 12:46 PM likai
  */

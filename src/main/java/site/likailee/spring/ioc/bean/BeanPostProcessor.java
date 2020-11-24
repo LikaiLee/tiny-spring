@@ -24,6 +24,9 @@ public interface BeanPostProcessor {
      * @param bean
      * @param beanName
      * @return
+     * @throws IllegalAccessException
+     * @throws NoSuchFieldException
+     * @throws InstantiationException
      */
-    Object postProcessAfterInitialization(Object bean, String beanName);
+    Object postProcessAfterInitialization(Object bean, String beanName) throws IllegalAccessException, NoSuchFieldException, InstantiationException;
 }

@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import service.HelloWorldService;
 import service.impl.HelloWorldServiceImpl;
-import site.likailee.spring.aop.aspect.AspectJExpressionPointcut;
+import site.likailee.spring.aop.pointcut.AspectJExpressionPointcut;
 
 /**
  * @author likailee.llk

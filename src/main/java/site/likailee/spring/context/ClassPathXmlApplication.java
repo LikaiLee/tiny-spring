@@ -23,6 +23,7 @@ public class ClassPathXmlApplication extends AbstractApplicationContext {
     private String configLocation;
 
     public ClassPathXmlApplication(String configLocation) throws Exception {
+        // 创建 BeanFactory，用于保存 bean 的定义
         this(configLocation, new AutowireCapableBeanFactory());
     }
 

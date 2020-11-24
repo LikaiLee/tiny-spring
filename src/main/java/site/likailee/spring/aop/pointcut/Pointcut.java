@@ -2,7 +2,7 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.spring.aop.aspect;
+package site.likailee.spring.aop.pointcut;
 
 /**
  * @author likailee.llk

@@ -32,6 +32,7 @@ public abstract class AbstractBeanFactory implements BeanFactory {
         // bean 未实例化，进行实例化
         if (bean == null) {
             bean = doCreateBean(beanDefinition);
+            // 为每个 Bean 增加处理程序：AOP 织入
             initializeBean(bean, name);
         }
         return bean;
@@ -43,12 +44,13 @@ public abstract class AbstractBeanFactory implements BeanFactory {
      * @param bean
      * @param name
      */
-    protected void initializeBean(Object bean, String name) {
+    protected void initializeBean(Object bean, String name) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
         for (BeanPostProcessor processor : beanPostProcessors) {
             bean = processor.postProcessBeforeInitialization(bean, name);
         }
         // call initialize method
         for (BeanPostProcessor processor : beanPostProcessors) {
+            // 返回的可能是 AOP 的代理对象
             bean = processor.postProcessAfterInitialization(bean, name);
         }
     }
@@ -134,20 +136,22 @@ public abstract class AbstractBeanFactory implements BeanFactory {
     }
 
     /**
-     * 获取 BeanPostProcessor 的子类或同类
+     * 获取 type 的子类或同类
      *
-     * @param beanPostProcessorClass
+     * @param type
      * @return
      * @throws IllegalAccessException
      * @throws NoSuchFieldException
      * @throws InstantiationException
      */
-    public List<Object> getBeansForType(Class<BeanPostProcessor> beanPostProcessorClass) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
+    public List<Object> getBeansForType(Class type) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
         List<Object> beans = new ArrayList<>();
         for (Map.Entry<String, BeanDefinition> entry : beanDefinitionMap.entrySet()) {
             Class clazz = entry.getValue().getBeanClass();
             // 获取 beanDefinitionMap 中的 BeanPostProcessor
-            if (beanPostProcessorClass.isAssignableFrom(clazz)) {
+            if (type.isAssignableFrom(clazz)) {
+                // getBean 里会实例化每个 BeanPostProcessor
+                // 而此时 beanPostProcessors 还没有内容，不会自身调用自身
                 beans.add(getBean(entry.getKey()));
             }
         }

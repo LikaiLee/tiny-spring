@@ -23,7 +23,7 @@ public class JdkDynamicAopProxyTest {
         HelloWorldService helloWorldService = (HelloWorldService) context.getBean("helloWorldService");
         // 被代理对象
         TargetSource targetSource = new TargetSource(helloWorldService, HelloWorldService.class);
-        // 切面类
+        // 切面类（拦截器 Advice）
         LogInterceptor interceptor = new LogInterceptor();
 
         AdviceSupport adviceSupport = new AdviceSupport();

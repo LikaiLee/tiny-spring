@@ -6,6 +6,7 @@ package site.likailee.spring.aop;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import site.likailee.spring.aop.pointcut.MethodMatcher;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -33,13 +34,18 @@ public class JdkDynamicAopProxy implements AopProxy, InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        // 获取切面
+        // 方法拦截器
         MethodInterceptor methodInterceptor = adviceSupport.getMethodInterceptor();
         // 需要被代理的对象
-        Object target = adviceSupport.getTargetSource().getTarget();
-        // 切点
-        MethodInvocation invocation = new ReflectiveMethodInvocation(target, method, args);
-        // 返回代理对象
-        return methodInterceptor.invoke(invocation);
+        TargetSource target = adviceSupport.getTargetSource();
+        MethodMatcher methodMatcher = adviceSupport.getMethodMatcher();
+        // 拦截方法匹配
+        if (methodMatcher != null && methodMatcher.matches(method, target.getTargetClass().getClass())) {
+            // 调用代理方法
+            MethodInvocation invocation = new ReflectiveMethodInvocation(target.getTarget(), method, args);
+            return methodInterceptor.invoke(invocation);
+        }
+        // 拦截方法不匹配，调用原方法
+        return method.invoke(target.getTarget(), args);
     }
 }
