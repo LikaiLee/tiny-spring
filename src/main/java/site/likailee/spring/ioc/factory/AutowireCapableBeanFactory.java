@@ -21,7 +21,7 @@ import java.lang.reflect.Method;
 public class AutowireCapableBeanFactory extends AbstractBeanFactory {
 
     /**
-     * 为 Bean 注入属性
+     * 通过反射为 Bean 自动装配属性
      *
      * @param bean
      * @param beanDefinition

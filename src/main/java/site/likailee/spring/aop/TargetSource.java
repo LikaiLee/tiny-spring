@@ -5,7 +5,7 @@
 package site.likailee.spring.aop;
 
 /**
- * 被代理的对象
+ * 被代理的对象的相关信息
  *
  * @author likailee.llk
  * @version TargetSource.java 2020/11/20 Fri 1:54 PM likai

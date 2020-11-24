@@ -10,7 +10,7 @@ import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Method;
 
 /**
- * 切点
+ * 被代理对象的方法
  *
  * @author likailee.llk
  * @version ReflectiveMethodInvocation.java 2020/11/20 Fri 2:33 PM likai

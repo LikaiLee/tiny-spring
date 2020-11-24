@@ -10,14 +10,14 @@ package site.likailee.spring.aop.pointcut;
  */
 public interface Pointcut {
     /**
-     * 获取切面类
+     * 获取类匹配器
      *
      * @return
      */
     ClassFilter getClassFilter();
 
     /**
-     * 获取切面方法
+     * 获取方法匹配器
      *
      * @return
      */

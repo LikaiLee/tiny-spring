@@ -49,14 +49,16 @@ public class AspectJAwareAdvisorAutoProxyCreator implements BeanPostProcessor, B
         // 获取所有切点表达式对象，判断当前 bean 是否需要进行代理
         List<Object> advisors = beanFactory.getBeansForType(AspectJExpressionPointcutAdvisor.class);
         for (Object advisor : advisors) {
+            // 获取切点
             Pointcut pointcut = ((AspectJExpressionPointcutAdvisor) advisor).getPointcut();
+            // 获取拦截器
             Advice advice = ((AspectJExpressionPointcutAdvisor) advisor).getAdvice();
             // 匹配要拦截的类
             if (pointcut.getClassFilter().matches(bean.getClass())) {
                 AdviceSupport adviceSupport = new AdviceSupport();
                 // 设置 方法拦截器
                 adviceSupport.setMethodInterceptor((MethodInterceptor) advice);
-                // 设置 方法匹配器，当方法匹配时才进行代理
+                // 设置 方法匹配器，在 AopProxy 中判断当方法匹配时才进行代理
                 adviceSupport.setMethodMatcher(pointcut.getMethodMatcher());
                 // 设置 需要代理的对象
                 TargetSource targetSource = new TargetSource(bean, bean.getClass().getInterfaces());

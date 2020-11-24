@@ -5,6 +5,8 @@
 package site.likailee.spring.aop.pointcut;
 
 /**
+ * 类拦截器
+ *
  * @author likailee.llk
  * @version ClassFilter.java 2020/11/24 Tue 12:44 PM likai
  */

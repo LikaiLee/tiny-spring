@@ -20,6 +20,12 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
         this.beanFactory = beanFactory;
     }
 
+    /**
+     * 核心方法
+     * 初始化 context
+     *
+     * @throws Exception
+     */
     public void refresh() throws Exception {
         // 注册 BeanDefinition
         loadBeanDefinitions(beanFactory);
@@ -40,7 +46,7 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
      * @param beanFactory
      */
     protected void registerBeanPostProcessors(AbstractBeanFactory beanFactory) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
-        // 获取 BeanPostProcessor 的类
+        // 获取 beanFactory 里所有的 BeanPostProcessor
         List<Object> beanPostProcessors = beanFactory.getBeansForType(BeanPostProcessor.class);
         // 往 beanPostProcessors 里添加 beanPostProcessor
         for (Object beanPostProcessor : beanPostProcessors) {
