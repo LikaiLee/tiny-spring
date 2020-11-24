@@ -33,7 +33,10 @@ public abstract class AbstractBeanFactory implements BeanFactory {
         if (bean == null) {
             bean = doCreateBean(beanDefinition);
             // 为每个 Bean 增加处理程序：AOP 织入
-            initializeBean(bean, name);
+            bean = initializeBean(bean, name);
+            // 将代理后的对象更新到 beanDefinitionMap 里
+            // 否则 beanDefinitionMap 里保存的还是原来的对象
+            beanDefinition.setBean(bean);
         }
         return bean;
     }
@@ -44,7 +47,7 @@ public abstract class AbstractBeanFactory implements BeanFactory {
      * @param bean
      * @param name
      */
-    protected void initializeBean(Object bean, String name) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
+    protected Object initializeBean(Object bean, String name) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
         for (BeanPostProcessor processor : beanPostProcessors) {
             bean = processor.postProcessBeforeInitialization(bean, name);
         }
@@ -53,6 +56,7 @@ public abstract class AbstractBeanFactory implements BeanFactory {
             // 返回的可能是 AOP 的代理对象
             bean = processor.postProcessAfterInitialization(bean, name);
         }
+        return bean;
     }
 
     /**

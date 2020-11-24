@@ -1,20 +1,19 @@
 <?ioc.xml version="1.0" encoding="utf-8" ?>
 <beans>
+    <bean id="outputService" class="service.impl.OutputServiceImpl">
+        <property name="helloWorldService" ref="helloWorldService"/>
+    </bean>
     <bean id="helloWorldService" class="service.impl.HelloWorldServiceImpl">
         <property name="text" value="hello world!"/>
         <property name="outputService" ref="outputService"/>
     </bean>
 
-    <bean id="outputService" class="service.OutputService">
-        <property name="helloWorldService" ref="helloWorldService"/>
-    </bean>
-
     <!--    <bean name="customProcessor" class="context.CustomBeanPostProcessor"/>-->
-    <bean id="beanInitializeLogger" class="context.BeanInitializeLogger"/>
-    <!--  自动创建代理  -->
-    <bean id="autoProxyCreator" class="site.likailee.spring.aop.advisor.AspectJAwareAdvisorAutoProxyCreator"/>
+    <!--    <bean id="beanInitializeLogger" class="context.BeanInitializeLogger"/>-->
     <!-- 切面 -->
     <bean id="logInterceptor" class="aop.LogInterceptor"/>
+    <!--  自动创建代理  -->
+    <bean id="autoProxyCreator" class="site.likailee.spring.aop.advisor.AspectJAwareAdvisorAutoProxyCreator"/>
     <!--  advisor  -->
     <bean id="aspectjAspect" class="site.likailee.spring.aop.advisor.AspectJExpressionPointcutAdvisor">
         <!--    设置切面    -->
