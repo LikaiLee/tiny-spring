@@ -8,6 +8,7 @@ import org.junit.Test;
 import service.HelloWorldService;
 import service.impl.HelloWorldServiceImpl;
 import site.likailee.spring.aop.AdviceSupport;
+import site.likailee.spring.aop.pointcut.AspectJExpressionPointcut;
 import site.likailee.spring.aop.proxy.JdkDynamicAopProxy;
 import site.likailee.spring.aop.TargetSource;
 import site.likailee.spring.context.ApplicationContext;
@@ -22,6 +23,8 @@ public class JdkDynamicAopProxyTest {
     public void test() throws Exception {
         ApplicationContext context = new ClassPathXmlApplication("beans.xml");
         HelloWorldService helloWorldService = (HelloWorldService) context.getBean("helloWorldService");
+        helloWorldService.hello();
+        System.out.println("***********************************");
         // 被代理对象
         TargetSource targetSource = new TargetSource(helloWorldService, HelloWorldServiceImpl.class, HelloWorldService.class);
         // 切面类（拦截器 Advice）
@@ -32,9 +35,9 @@ public class JdkDynamicAopProxyTest {
         adviceSupport.setMethodInterceptor(interceptor);
 
         // 方法匹配器
-        // AspectJExpressionPointcut methodMatcher = new AspectJExpressionPointcut();
-        // methodMatcher.setExpression("execution(* service.*.*(..))");
-        // adviceSupport.setMethodMatcher(methodMatcher);
+        AspectJExpressionPointcut methodMatcher = new AspectJExpressionPointcut();
+        methodMatcher.setExpression("execution(* service.*.*(..))");
+        adviceSupport.setMethodMatcher(methodMatcher);
 
         // 生成代理对象
         JdkDynamicAopProxy jdkDynamicAopProxy = new JdkDynamicAopProxy(adviceSupport);

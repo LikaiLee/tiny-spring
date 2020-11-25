@@ -16,11 +16,11 @@ public class LogInterceptor implements MethodInterceptor {
     @Override
     public Object invoke(MethodInvocation methodInvocation) throws Throwable {
         long startTime = System.currentTimeMillis();
-        System.out.println("---before AOP---");
-        System.out.println("method: " + methodInvocation.getMethod().getName());
+        System.out.print("---before");
+        System.out.println(" method: " + methodInvocation.getMethod().getName());
         Object proceed = methodInvocation.proceed();
         long endTime = System.currentTimeMillis();
-        System.out.println("---after AOP---");
+        System.out.print("---end ");
         System.out.println("time cost: " + (endTime - startTime));
         return proceed;
     }

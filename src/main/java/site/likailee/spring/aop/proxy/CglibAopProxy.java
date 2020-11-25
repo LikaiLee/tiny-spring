@@ -12,6 +12,7 @@ import site.likailee.spring.aop.TargetSource;
 import site.likailee.spring.aop.pointcut.MethodMatcher;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 /**
  * Cglib 代理
@@ -32,6 +33,7 @@ public class CglibAopProxy extends AbstractAopProxy {
     @Override
     public Object getProxy() {
         Enhancer enhancer = new Enhancer();
+        // 设置父类 => 原对象
         enhancer.setSuperclass(adviceSupport.getTargetSource().getTargetClass());
         enhancer.setInterfaces(adviceSupport.getTargetSource().getInterfaces());
         // 设置回调方法
@@ -58,7 +60,7 @@ public class CglibAopProxy extends AbstractAopProxy {
             // 原方法
             ReflectiveMethodInvocation methodInvocation = new CglibMethodInvocation(targetSource.getTarget(), method, args, methodProxy);
             // 方法匹配
-            if (methodMatcher != null && methodMatcher.matches(method, targetSource.getTargetClass().getClass())) {
+            if (methodMatcher != null && methodMatcher.matches(method, targetSource.getTargetClass())) {
                 // 调用拦截器的 invoke 方法
                 return adviceSupport.getMethodInterceptor().invoke(methodInvocation);
             }

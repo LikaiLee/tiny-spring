@@ -7,6 +7,7 @@
         <property name="text" value="hello world!"/>
         <property name="outputService" ref="outputService"/>
     </bean>
+    <bean id="walkService" class="service.WalkService" />
 
     <!--    <bean name="customProcessor" class="context.CustomBeanPostProcessor"/>-->
     <!--    <bean id="beanInitializeLogger" class="context.BeanInitializeLogger"/>-->
