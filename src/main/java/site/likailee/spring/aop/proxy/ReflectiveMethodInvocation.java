@@ -2,7 +2,7 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.spring.aop;
+package site.likailee.spring.aop.proxy;
 
 import org.aopalliance.intercept.MethodInvocation;
 
@@ -10,7 +10,8 @@ import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Method;
 
 /**
- * 被代理对象的方法
+ * 被代理对象的方法，控制原方法的执行
+ * 即拦截器 invoke() 中的 methodInvocation
  *
  * @author likailee.llk
  * @version ReflectiveMethodInvocation.java 2020/11/20 Fri 2:33 PM likai
@@ -19,15 +20,15 @@ public class ReflectiveMethodInvocation implements MethodInvocation {
     /**
      * 被代理的真实对象
      */
-    private Object target;
+    protected Object target;
     /**
      * 被代理的方法
      */
-    private Method method;
+    protected Method method;
     /**
      * 方法参数
      */
-    private Object[] args;
+    protected Object[] args;
 
     public ReflectiveMethodInvocation(Object target, Method method, Object[] args) {
         this.target = target;
@@ -53,6 +54,7 @@ public class ReflectiveMethodInvocation implements MethodInvocation {
      */
     @Override
     public Object proceed() throws Throwable {
+        // 调用原始对象的方法
         return method.invoke(target, args);
     }
 

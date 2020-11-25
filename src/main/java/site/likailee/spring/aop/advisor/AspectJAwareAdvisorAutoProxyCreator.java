@@ -6,8 +6,7 @@ package site.likailee.spring.aop.advisor;
 
 import org.aopalliance.aop.Advice;
 import org.aopalliance.intercept.MethodInterceptor;
-import site.likailee.spring.aop.AdviceSupport;
-import site.likailee.spring.aop.JdkDynamicAopProxy;
+import site.likailee.spring.aop.proxy.ProxyFactory;
 import site.likailee.spring.aop.TargetSource;
 import site.likailee.spring.aop.pointcut.Pointcut;
 import site.likailee.spring.ioc.bean.BeanPostProcessor;
@@ -55,16 +54,17 @@ public class AspectJAwareAdvisorAutoProxyCreator implements BeanPostProcessor, B
             Advice advice = ((AspectJExpressionPointcutAdvisor) advisor).getAdvice();
             // 匹配要拦截的类
             if (pointcut.getClassFilter().matches(bean.getClass())) {
-                AdviceSupport adviceSupport = new AdviceSupport();
+                ProxyFactory adviceSupport = new ProxyFactory();
                 // 设置 方法拦截器
                 adviceSupport.setMethodInterceptor((MethodInterceptor) advice);
                 // 设置 方法匹配器，在 AopProxy 中判断当方法匹配时才进行代理
                 adviceSupport.setMethodMatcher(pointcut.getMethodMatcher());
                 // 设置 需要代理的对象
-                TargetSource targetSource = new TargetSource(bean, bean.getClass().getInterfaces());
+                TargetSource targetSource = new TargetSource(bean, bean.getClass(), bean.getClass().getInterfaces());
                 adviceSupport.setTargetSource(targetSource);
                 // 返回代理对象
-                return new JdkDynamicAopProxy(adviceSupport).getProxy();
+                return adviceSupport.getProxy();
+                // return new JdkDynamicAopProxy(adviceSupport).getProxy();
             }
         }
         // 类不匹配，不进行代理

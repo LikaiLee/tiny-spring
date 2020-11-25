@@ -8,16 +8,16 @@ import org.junit.Test;
 import service.HelloWorldService;
 import service.impl.HelloWorldServiceImpl;
 import site.likailee.spring.aop.AdviceSupport;
-import site.likailee.spring.aop.proxy.JdkDynamicAopProxy;
+import site.likailee.spring.aop.proxy.CglibAopProxy;
 import site.likailee.spring.aop.TargetSource;
 import site.likailee.spring.context.ApplicationContext;
 import site.likailee.spring.context.ClassPathXmlApplication;
 
 /**
  * @author likailee.llk
- * @version JdkDynamicAopProxyTest.java 2020/11/20 Fri 2:57 PM likai
+ * @version CglibAopProxyTest.java 2020/11/25 Wed 12:39 PM likai
  */
-public class JdkDynamicAopProxyTest {
+public class CglibAopProxyTest {
     @Test
     public void test() throws Exception {
         ApplicationContext context = new ClassPathXmlApplication("beans.xml");
@@ -36,9 +36,8 @@ public class JdkDynamicAopProxyTest {
         // methodMatcher.setExpression("execution(* service.*.*(..))");
         // adviceSupport.setMethodMatcher(methodMatcher);
 
-        // 生成代理对象
-        JdkDynamicAopProxy jdkDynamicAopProxy = new JdkDynamicAopProxy(adviceSupport);
-        HelloWorldService helloWorldServiceProxy = (HelloWorldService) jdkDynamicAopProxy.getProxy();
-        helloWorldServiceProxy.hello();
+        CglibAopProxy cglibAopProxy = new CglibAopProxy(adviceSupport);
+        HelloWorldService proxy = (HelloWorldService) cglibAopProxy.getProxy();
+        proxy.hello();
     }
 }
